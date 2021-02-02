@@ -33,7 +33,7 @@ fi
 
 # Parse the ISSUE_KEY from BRANCH_NAME
 
-ISSUE_KEY=$(echo $BRANCH_NAME | awk -F/ '{print $NF}' | awk -F- '{print $1"-"$2}')
+ISSUE_KEY=$(echo $BRANCH_NAME | awk -F/ '{print $2}' | awk -F- '{print $1"-"$2}')
 
 # -F/ awk option tells it to split by / delimiter
 # $1 option prints the first token
