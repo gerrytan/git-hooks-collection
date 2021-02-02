@@ -1,0 +1,49 @@
+#!/bin/sh
+
+# Adds a Jira issue key prefix to the prepared message in the editor before commit is performed.
+# This script assumes git branch in this format "issue/MYPROJ-123-Some-cool-change-here"
+#
+# Place this script in the .git/hooks directory of your repository
+# and don't forget to make it executable with chmod u+x
+#
+# This script is available at:
+# https://github.com/gerrytan/git-hooks-collection/blob/master/prepend-jira-issue-key-to-commit-message
+#
+# Tip: use https://github.com/gerrytan/git-branch-namer to obtain git branch command from a Jira issue ;)
+
+
+# Git passes the path to prepared commit message file as first argument, we'll prepend the Jira issue key into this file
+
+COMMIT_MSG_FILE=$1
+
+
+BRANCH_NAME=$(git rev-parse --abbrev-ref HEAD)
+SEPARATOR=:
+
+
+
+# Do nothing if the branch name is not in the format of "issue/MYPROJ-123"
+
+echo $BRANCH_NAME | egrep -i --silent '[a-z]+/[a-z0-9]+-[0-9]+'
+if [ "$?" -gt "0" ]; then
+  exit 0
+fi
+
+
+
+# Parse the ISSUE_KEY from BRANCH_NAME
+
+ISSUE_KEY=$(echo $BRANCH_NAME | awk -F/ '{print $NF}' | awk -F- '{print $1"-"$2}')
+
+# -F/ awk option tells it to split by / delimiter
+# $1 option prints the first token
+
+
+
+# Prepend ISSUE_KEY into COMMIT_MSG_FILE
+
+perl -pi -e "print \"${ISSUE_KEY}${SEPARATOR} \n\" if $. == 1" $COMMIT_MSG_FILE
+
+# -p turns on while loop mode
+# -i and -e turns on inline editing mode
+# More info: https://stackoverflow.com/questions/1230654/how-do-i-add-lines-to-the-top-and-bottom-of-a-file-in-perl
