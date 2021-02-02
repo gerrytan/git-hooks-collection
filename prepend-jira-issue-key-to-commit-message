@@ -3,11 +3,11 @@
 # Adds a Jira issue key prefix to the prepared message in the editor before commit is performed.
 # This script assumes git branch in this format "issue/MYPROJ-123-Some-cool-change-here"
 #
-# Place this script in the .git/hooks directory of your repository
-# and don't forget to make it executable with chmod u+x
+# Install this script by running this command in the root of your git repo:
+# 
+# curl -L https://raw.githubusercontent.com/gerrytan/git-hooks-collection/main/prepend-jira-issue-key-to-commit-message -o .git/hooks/prepend-jira-issue-key-to-commit-message && chmod u+x .git/hooks/prepend-jira-issue-key-to-commit-message
 #
-# This script is available at:
-# https://github.com/gerrytan/git-hooks-collection/blob/master/prepend-jira-issue-key-to-commit-message
+# Source code of this script is available at: https://github.com/gerrytan/git-hooks-collection/blob/main/prepend-jira-issue-key-to-commit-message
 #
 # Tip: use https://github.com/gerrytan/git-branch-namer to obtain git branch command from a Jira issue ;)
 
