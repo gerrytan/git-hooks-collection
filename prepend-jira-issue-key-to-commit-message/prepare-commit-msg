@@ -3,11 +3,11 @@
 # Adds a Jira issue key prefix to the prepared message in the editor before commit is performed.
 # This script assumes git branch in this format "issue/MYPROJ-123-Some-cool-change-here"
 #
-# Install this script by running this command in the root of your git repo:
+# Install this script by running this command in the root of your git repo (WARNING this will override existing any existing git hooks in the repo):
 # 
-# curl -L https://raw.githubusercontent.com/gerrytan/git-hooks-collection/main/prepend-jira-issue-key-to-commit-message -o .git/hooks/prepare-commit-msg && chmod u+x .git/hooks/prepare-commit-msg
+# curl -L https://raw.githubusercontent.com/gerrytan/git-hooks-collection/main/prepend-jira-issue-key-to-commit-message/prepare-commit-msg -o .git/hooks/prepare-commit-msg && chmod u+x .git/hooks/prepare-commit-msg
 #
-# Source code of this script is available at: https://github.com/gerrytan/git-hooks-collection/blob/main/prepend-jira-issue-key-to-commit-message
+# Source code of this script is available at: https://github.com/gerrytan/git-hooks-collection/blob/main/prepend-jira-issue-key-to-commit-message/prepare-commit-msg
 #
 # Tip: use https://github.com/gerrytan/git-branch-namer to obtain git branch command from a Jira issue ;)
 
@@ -42,7 +42,7 @@ ISSUE_KEY=$(echo $BRANCH_NAME | awk -F/ '{print $2}' | awk -F- '{print $1"-"$2}'
 
 # Prepend ISSUE_KEY into COMMIT_MSG_FILE
 
-perl -pi -e "print \"${ISSUE_KEY}${SEPARATOR} \n\" if $. == 1" $COMMIT_MSG_FILE
+perl -pi -e "print \"${ISSUE_KEY}${SEPARATOR} \" if $. == 1" $COMMIT_MSG_FILE
 
 # -p turns on while loop mode
 # -i and -e turns on inline editing mode
