@@ -40,10 +40,14 @@ ISSUE_KEY=$(echo $BRANCH_NAME | awk -F/ '{print $2}' | awk -F- '{print $1"-"$2}'
 
 
 
-# Prepend ISSUE_KEY into COMMIT_MSG_FILE
+if head -1 $COMMIT_MSG_FILE | egrep -i  --silent '^[a-z0-9]+-[0-9]+' ; then
+  echo "Not prepending Jira issue key, commit message already starts with one"
+else
+  # Prepend ISSUE_KEY into COMMIT_MSG_FILE
+  perl -pi -e "print \"${ISSUE_KEY}${SEPARATOR} \" if $. == 1" $COMMIT_MSG_FILE
 
-perl -pi -e "print \"${ISSUE_KEY}${SEPARATOR} \" if $. == 1" $COMMIT_MSG_FILE
-
-# -p turns on while loop mode
-# -i and -e turns on inline editing mode
-# More info: https://stackoverflow.com/questions/1230654/how-do-i-add-lines-to-the-top-and-bottom-of-a-file-in-perl
+  # -p turns on while loop mode
+  # -i and -e turns on inline editing mode
+  # $. will return the line number
+  # More info: https://stackoverflow.com/questions/1230654/how-do-i-add-lines-to-the-top-and-bottom-of-a-file-in-perl
+fi
