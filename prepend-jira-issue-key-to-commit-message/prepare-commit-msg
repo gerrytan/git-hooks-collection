@@ -8,8 +8,6 @@
 # curl -L https://raw.githubusercontent.com/gerrytan/git-hooks-collection/main/prepend-jira-issue-key-to-commit-message/prepare-commit-msg -o .git/hooks/prepare-commit-msg && chmod u+x .git/hooks/prepare-commit-msg
 #
 # Source code of this script is available at: https://github.com/gerrytan/git-hooks-collection/blob/main/prepend-jira-issue-key-to-commit-message/prepare-commit-msg
-#
-# Tip: use https://github.com/gerrytan/git-branch-namer to obtain git branch command from a Jira issue ;)
 
 
 # Git passes the path to prepared commit message file as first argument, we'll prepend the Jira issue key into this file
